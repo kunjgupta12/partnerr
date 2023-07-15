@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>986954955333-iu3033s05iocqughg3juf23fob9s3hmf.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.986954955333-iu3033s05iocqughg3juf23fob9s3hmf</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDHdkeREBffwuIOANOU5HYVTmNmksCXNz8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>986954955333</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.partnerr</string>
+	<key>PROJECT_ID</key>
+	<string>senerity-3930a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>senerity-3930a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:986954955333:ios:3b9901cf3b5f1ec2e2412c</string>
+	<key>DATABASE_URL</key>
+	<string>https://senerity-3930a-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
