@@ -4,6 +4,7 @@ import 'package:partnerr/details.dart';
 import 'package:partnerr/email_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:partnerr/partner_doctor.dart';
 import 'package:partnerr/user_details.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
@@ -31,12 +32,13 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
     setState(() {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+
     });
 
     if (isEmailVerified) {
-      bool done = true;
+   //   bool done = true;
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => userdetails()));
+          context, MaterialPageRoute(builder: (context) => partnerordoctor()));
       // TODO: implement your code after email verification
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Email Successfully Verified")));

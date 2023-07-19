@@ -10,7 +10,8 @@ import 'package:partnerr/homepage.dart';
 
 
 import 'package:partnerr/signup.dart';
-import 'package:partnerr/user_details.dart';
+
+
 
 
 class deails extends StatelessWidget {
@@ -22,6 +23,7 @@ class deails extends StatelessWidget {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.width;
     return Scaffold(
+
 
 
       backgroundColor: Colors.white,
@@ -102,20 +104,20 @@ class deails extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-           /* RichText(
+          /*  RichText(
                 text: TextSpan(
                     text: "",
                     style: TextStyle(color: Colors.grey[500], fontSize: 20),
                     children: [
                       TextSpan(
-                          text: "Join as partner",
+                          text: "Join as doctor",
                           style: TextStyle(
                               color: Colors.pink,
                               fontSize: 30,
 
                               fontWeight: FontWeight.bold),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => Get.to(() => userdetails()))
+                            ..onTap = () => Get.to(() => slots()))
                     ])),*/
             RichText(
                 text: TextSpan(

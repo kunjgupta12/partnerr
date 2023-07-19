@@ -2,15 +2,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:partnerr/details.dart';
+import 'package:partnerr/homepage.dart';
 
 import 'package:partnerr/login.dart';
 import 'package:partnerr/email_authstep.dart';
+import 'package:partnerr/partner_doctor.dart';
+import 'package:partnerr/signup.dart';
 import 'package:partnerr/user_details.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
   FirebaseAuth auth = FirebaseAuth.instance;
+  bool k=false;
   bool isEmailVerified = false;
 
   @override
@@ -26,18 +31,25 @@ class AuthController extends GetxController {
     if (user == null) {
       print("login page");
       Get.offAll(() => Loginpage());
-    } else if (isEmailVerified!) {
-      Get.offAll(() => userdetails());
-    } else {
-      bool check = false;
-      Get.offAll(() => userdetails());
+    }/*else if (k=false) {
+      Get.offAll(() => SignupPage());
+    }*/
+    else if(k=true){
+Get.offAll(()=> partnerordoctor());
+    }else {
+      Get.offAll(() => Loginpage());
+
     }
+
   }
 
   void checkEmailVerified() async {
     await FirebaseAuth.instance.currentUser?.reload();
 
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    k=true;
+
+    Get.offAll(()=>partnerordoctor());
   }
 
   void register(String email, password) async {
@@ -66,6 +78,7 @@ class AuthController extends GetxController {
   void login(String email, password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
+      Get.offAll(() => homepage());
     } catch (e) {
       Get.snackbar(
         "About Login",
