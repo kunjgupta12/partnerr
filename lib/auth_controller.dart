@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:partnerr/Local_notification_service.dart';
 import 'package:partnerr/details.dart';
 import 'package:partnerr/homepage.dart';
 
@@ -40,6 +42,7 @@ Get.offAll(()=> partnerordoctor());
       Get.offAll(() => Loginpage());
 
     }
+
 
   }
 

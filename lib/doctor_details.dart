@@ -43,8 +43,8 @@ class doctordetails extends StatelessWidget {
   final mobilecontroller = TextEditingController();
   final emailcontroller = TextEditingController();
   final namecontroller = TextEditingController();
- final registraioncontroller =TextEditingController();
- final pricecontroller=TextEditingController();
+  final registraioncontroller = TextEditingController();
+  final pricecontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +80,11 @@ class doctordetails extends StatelessWidget {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
@@ -117,11 +117,11 @@ class doctordetails extends StatelessWidget {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
@@ -153,11 +153,11 @@ class doctordetails extends StatelessWidget {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
@@ -178,7 +178,6 @@ class doctordetails extends StatelessWidget {
                     ]),
                 child: TextFormField(
                   controller: registraioncontroller,
-
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                       hintText: 'Registraion number',
@@ -189,16 +188,18 @@ class doctordetails extends StatelessWidget {
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Container(
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -212,7 +213,7 @@ class doctordetails extends StatelessWidget {
                     ]),
                 child: TextFormField(
                   controller: pricecontroller,
-inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       hintText: 'price for 1 hour',
@@ -223,51 +224,50 @@ inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide:
-                          BorderSide(color: Colors.white, width: 1.0)),
+                              BorderSide(color: Colors.white, width: 1.0)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30))),
                 ),
               ),
               ElevatedButton(
-
                 style: ButtonStyle(
-
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.red)
-                        )
-                    )
-                ),
-
+                            side: BorderSide(color: Colors.red)))),
                 onPressed: () {
+                  final height = double.parse(pricecontroller.text) * 100;
+                  String pricee = height.toString();
                   CollectionReference collref =
-                  FirebaseFirestore.instance.collection('doctor details');
+                      FirebaseFirestore.instance.collection('doctor details');
                   collref.add({
                     'name': namecontroller.text,
                     'email': emailcontroller.text,
                     'mobile': mobilecontroller.text,
-                    'registraion number':registraioncontroller.text,
-                    'price':(pricecontroller).value,
+                    'registraion number': registraioncontroller.text,
+                    'price': pricee,
                   });
                   if (namecontroller.text != "" &&
                       emailcontroller.text != "" &&
-                      mobilecontroller.text != ""&&registraioncontroller.text!="") {
+                      mobilecontroller.text != "" &&
+                      registraioncontroller.text != "") {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) =>
-homepage(),
-                      ),);
+                      MaterialPageRoute(
+                        builder: (context) => homepage(),
+                      ),
+                    );
                   }
                 },
-
-                child: Text('Submit',style: TextStyle(
-                  fontSize: 20,
-                ),),
+                child: Text(
+                  'Submit',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ],
           ),
