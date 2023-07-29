@@ -1,13 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:partnerr/Local_notification_service.dart';
+
 import 'package:partnerr/partner_doctor.dart';
 import 'package:partnerr/splashscreen.dart';
 import 'package:partnerr/auth_controller.dart';
-import 'package:partnerr/login.dart';
-import 'package:partnerr/signup.dart';
-
 
 import 'package:get/get.dart';
 import 'firebase_options.dart';
@@ -15,7 +12,6 @@ import 'firebase_options.dart';
 Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
   print(message.notification!.title);
-  LocalNotificationService.initialize(partnerordoctor() as BuildContext);
 }
 
 void main() async {
@@ -33,12 +29,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
-
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: splashscreen(
-
-        ));
+        home: splashscreen());
   }
 }

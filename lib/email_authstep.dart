@@ -32,11 +32,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
     setState(() {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-
     });
 
     if (isEmailVerified) {
-   //   bool done = true;
+      //   bool done = true;
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => partnerordoctor()));
       // TODO: implement your code after email verification

@@ -29,7 +29,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               backgroundColor: Colors.blueGrey,
               content: Text(
                 'Password resend link has been send !'
-                    '                             Please Check  your Email',
+                '                             Please Check  your Email',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,

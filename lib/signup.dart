@@ -80,11 +80,11 @@ class _SignuppageState extends State<SignupPage> {
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30))),
                     ),
@@ -115,11 +115,11 @@ class _SignuppageState extends State<SignupPage> {
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30))),
                     ),
@@ -171,9 +171,9 @@ class _SignuppageState extends State<SignupPage> {
             ),
             RichText(
                 text: TextSpan(
-                  text: "Sign up using one of the following methods!!!",
-                  style: TextStyle(color: Colors.grey[500], fontSize: 20),
-                )),
+              text: "Sign up using one of the following methods!!!",
+              style: TextStyle(color: Colors.grey[500], fontSize: 20),
+            )),
             Wrap(
               children: List<Widget>.generate(3, (index) {
                 return Padding(

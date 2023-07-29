@@ -161,19 +161,12 @@ class userdetails extends StatelessWidget {
                 height: 20,
               ),
               ElevatedButton(
-
-                  style: ButtonStyle(
-
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: BorderSide(color: Colors.red)
-                          )
-                      )
-                  ),
-
-                  onPressed: () {
+                style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.red)))),
+                onPressed: () {
                   CollectionReference collref =
                       FirebaseFirestore.instance.collection('partner details');
                   collref.add({
@@ -185,13 +178,19 @@ class userdetails extends StatelessWidget {
                       emailcontroller.text != "" &&
                       mobilecontroller.text != "") {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => deails(email: AutofillHints.email),),);
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            deails(email: AutofillHints.email),
+                      ),
+                    );
                   }
                 },
-
-                child: Text('Submit',style: TextStyle(
-                  fontSize: 20,
-                ),),
+                child: Text(
+                  'Submit',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ],
           ),

@@ -26,7 +26,7 @@ class Signaling {
 
   Future<String> createRoom(RTCVideoRenderer remoteRenderer) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    DocumentReference roomRef = db.collection('rooms doctor').doc();
+    DocumentReference roomRef = db.collection('rooms').doc();
 
     print('Create PeerConnection with configuration: $configuration');
 
@@ -183,9 +183,9 @@ class Signaling {
   }
 
   Future<void> openUserMedia(
-      RTCVideoRenderer localVideo,
-      RTCVideoRenderer remoteVideo,
-      ) async {
+    RTCVideoRenderer localVideo,
+    RTCVideoRenderer remoteVideo,
+  ) async {
     var stream = await navigator.mediaDevices
         .getUserMedia({'video': true, 'audio': true});
 

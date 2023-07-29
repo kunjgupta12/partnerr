@@ -86,11 +86,11 @@ class _LoginpageState extends State<Loginpage> {
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30))),
                     ),
@@ -121,11 +121,11 @@ class _LoginpageState extends State<Loginpage> {
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
+                                  BorderSide(color: Colors.white, width: 1.0)),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30))),
                     ),
@@ -140,13 +140,13 @@ class _LoginpageState extends State<Loginpage> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                                return ForgotPasswordPage();
-                              }));
+                            return ForgotPasswordPage();
+                          }));
                         },
                         child: Text(
                           "Forgot Your Password?",
                           style:
-                          TextStyle(fontSize: 20, color: Colors.grey[500]),
+                              TextStyle(fontSize: 20, color: Colors.grey[500]),
                         ),
                       )
                     ],
@@ -186,15 +186,15 @@ class _LoginpageState extends State<Loginpage> {
                     text: "Don\'t have an account?",
                     style: TextStyle(color: Colors.grey[500], fontSize: 20),
                     children: [
-                      TextSpan(
-                          text: "Create one for Free!!",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => Get.to(() => SignupPage()))
-                    ]))
+                  TextSpan(
+                      text: "Create one for Free!!",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => Get.to(() => SignupPage()))
+                ]))
           ],
         ),
       ),

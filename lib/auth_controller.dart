@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:partnerr/Local_notification_service.dart';
+
 import 'package:partnerr/details.dart';
 import 'package:partnerr/homepage.dart';
 
@@ -17,7 +17,7 @@ class AuthController extends GetxController {
   static AuthController instance = Get.find();
   late Rx<User?> _user;
   FirebaseAuth auth = FirebaseAuth.instance;
-  bool k=false;
+  bool k = false;
   bool isEmailVerified = false;
 
   @override
@@ -33,26 +33,23 @@ class AuthController extends GetxController {
     if (user == null) {
       print("login page");
       Get.offAll(() => Loginpage());
-    }/*else if (k=false) {
+    } /*else if (k=false) {
       Get.offAll(() => SignupPage());
     }*/
-    else if(k=true){
-Get.offAll(()=> partnerordoctor());
-    }else {
+    else if (k = true) {
+      Get.offAll(() => partnerordoctor());
+    } else {
       Get.offAll(() => Loginpage());
-
     }
-
-
   }
 
   void checkEmailVerified() async {
     await FirebaseAuth.instance.currentUser?.reload();
 
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    k=true;
+    k = true;
 
-    Get.offAll(()=>partnerordoctor());
+    Get.offAll(() => partnerordoctor());
   }
 
   void register(String email, password) async {

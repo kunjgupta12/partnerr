@@ -2,8 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
-
-
 import 'join_vc.dart';
 
 Future<void> main() async {
@@ -11,6 +9,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   runApp(gethelp());
 }
+
 class gethelp extends StatefulWidget {
   const gethelp({super.key});
 
@@ -19,7 +18,6 @@ class gethelp extends StatefulWidget {
 }
 
 class _gethelpState extends State<gethelp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,8 +26,6 @@ class _gethelpState extends State<gethelp> {
     );
   }
 }
-
-
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -68,25 +64,25 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
-
         children: [
           SizedBox(height: 20),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ElevatedButton(
-
                 onPressed: () {
                   signaling.openUserMedia(_localRenderer, _remoteRenderer);
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black87),
                 ),
-                child: Text("Open camera & microphone",style: TextStyle(color: Colors.blueGrey,fontSize:20),),
+                child: Text(
+                  "Open camera & microphone",
+                  style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                ),
               ),
-
               SizedBox(
                 width: 8,
               ),
@@ -97,9 +93,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   setState(() {});
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black87),
                 ),
-                child: Text("Create room",style: TextStyle(color: Colors.blueGrey,fontSize:20),),
+                child: Text(
+                  "Create room",
+                  style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                ),
               ),
               SizedBox(
                 width: 8,
@@ -113,9 +113,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black87),
                 ),
-                child: Text("Join room",style: TextStyle(color: Colors.blueGrey,fontSize:20),),
+                child: Text(
+                  "Join room",
+                  style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                ),
               ),
               SizedBox(
                 width: 8,
@@ -125,9 +129,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   signaling.hangUp(_localRenderer);
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.black87),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black87),
                 ),
-                child: Text("Hangup",style: TextStyle(fontSize:20),),
+                child: Text(
+                  "Hangup",
+                  style: TextStyle(fontSize: 20),
+                ),
               )
             ],
           ),

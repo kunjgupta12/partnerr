@@ -16,12 +16,11 @@ class _partnerordoctorState extends State<partnerordoctor> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-
-
         child: Column(
-
           children: [
-            SizedBox(height: 500,),
+            SizedBox(
+              height: 500,
+            ),
             ElevatedButton(
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(

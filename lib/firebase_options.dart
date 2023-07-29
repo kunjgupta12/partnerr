@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     projectId: 'senerity-3930a',
     databaseURL: 'https://senerity-3930a-default-rtdb.firebaseio.com',
     storageBucket: 'senerity-3930a.appspot.com',
-    iosClientId: '986954955333-iu3033s05iocqughg3juf23fob9s3hmf.apps.googleusercontent.com',
+    iosClientId:
+        '986954955333-iu3033s05iocqughg3juf23fob9s3hmf.apps.googleusercontent.com',
     iosBundleId: 'com.example.partnerr',
   );
 
@@ -81,7 +82,8 @@ class DefaultFirebaseOptions {
     projectId: 'senerity-3930a',
     databaseURL: 'https://senerity-3930a-default-rtdb.firebaseio.com',
     storageBucket: 'senerity-3930a.appspot.com',
-    iosClientId: '986954955333-7j466rnlnteenatla13hp2q52pjmbogm.apps.googleusercontent.com',
+    iosClientId:
+        '986954955333-7j466rnlnteenatla13hp2q52pjmbogm.apps.googleusercontent.com',
     iosBundleId: 'com.example.partnerr.RunnerTests',
   );
 }
