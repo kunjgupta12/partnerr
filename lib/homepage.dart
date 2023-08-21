@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:partnerr/connect_gethelp.dart';
+import 'package:partnerr/email_auth.dart';
+import 'package:partnerr/login.dart';
 
 class homepage extends StatefulWidget {
   const homepage({super.key});
@@ -12,8 +15,9 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
-  final TextEditingController _title = TextEditingController();
+  TextEditingController _title = TextEditingController();
   final TextEditingController _desc = TextEditingController();
+
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -42,13 +46,15 @@ class _homepageState extends State<homepage> {
       }
       // onSelectNotification: (dataYouNeedToUseWhenNotificationIsClicked) {},
     });
+
     Stream<QuerySnapshot<Map<String, dynamic>>> notificationStream =
         FirebaseFirestore.instance.collection('rooms').snapshots();
     notificationStream.listen((event) {
       if (event.docs.isEmpty) {
         return;
+      } else {
+        showNotification(event.docs.first);
       }
-      showNotification(event.docs.first);
     });
   }
 
@@ -56,9 +62,9 @@ class _homepageState extends State<homepage> {
     const AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails('001', 'Local Notification',
             channelDescription: 'to send local notification');
-    const NotificationDetails details =
+    NotificationDetails details =
         NotificationDetails(android: androidNotificationDetails);
-    const NotificationDetails notificationDetails = NotificationDetails(
+    NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
       linux: null,
     );
@@ -69,6 +75,13 @@ class _homepageState extends State<homepage> {
 
   @override
   Widget build(BuildContext context) {
+    late User user;
+    late String currentUId;
+    late String currentEmail;
+
+    user = auth.currentUser!;
+    currentUId = user.uid.toString();
+    currentEmail = user.email.toString();
     return Scaffold(
       appBar: AppBar(
         title: Text('Join'),
@@ -79,10 +92,27 @@ class _homepageState extends State<homepage> {
                     MaterialPageRoute(builder: (context) => gethelp()));
               },
               child: Icon(Icons.add)),
+          SizedBox(
+            height: 40,
+          ),
+          InkWell(
+            onTap: () {
+              auth.signOut().then(
+                (value) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Loginpage()));
+                },
+              );
+            },
+            child: Icon(Icons.logout),
+          )
         ],
       ),
       body: Column(
         children: [
+          Text(user.uid),
+          Text(currentEmail),
+          //  TextField(controller: _title),
           StreamBuilder<QuerySnapshot>(
               stream: firestore,
               builder:

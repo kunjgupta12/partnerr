@@ -5,19 +5,19 @@ import 'package:partnerr/email_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:partnerr/homepage.dart';
-import 'package:partnerr/nav_bar.dart';
 import 'package:partnerr/partner_doctor.dart';
 import 'package:partnerr/user_details.dart';
 
-class EmailVerificationScreen extends StatefulWidget {
-  const EmailVerificationScreen({Key? key}) : super(key: key);
+class EmailVerificationScreenregister extends StatefulWidget {
+  const EmailVerificationScreenregister({Key? key}) : super(key: key);
 
   @override
-  State<EmailVerificationScreen> createState() =>
+  State<EmailVerificationScreenregister> createState() =>
       _EmailVerificationScreenState();
 }
 
-class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+class _EmailVerificationScreenState
+    extends State<EmailVerificationScreenregister> {
   bool isEmailVerified = false;
   Timer? timer;
   @override
@@ -26,7 +26,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     super.initState();
     FirebaseAuth.instance.currentUser?.sendEmailVerification();
     timer = Timer.periodic(
-        const Duration(seconds: 3), (_) => checkEmailVerified());
+        const Duration(seconds: 30), (_) => checkEmailVerified());
   }
 
   checkEmailVerified() async {
@@ -67,7 +67,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     return SafeArea(
       child: Scaffold(
         body: isEmailVerified
-            ? profilepage()
+            ? partnerordoctor()
             : SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

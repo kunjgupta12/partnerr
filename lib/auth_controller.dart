@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:partnerr/details.dart';
+import 'package:partnerr/email_authregister.dart';
 import 'package:partnerr/homepage.dart';
 
 import 'package:partnerr/login.dart';
@@ -19,6 +21,9 @@ class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   bool k = false;
   bool isEmailVerified = false;
+  late User user;
+  late String currentUId;
+  late String currentEmail;
 
   @override
   void onReady() {
@@ -33,30 +38,33 @@ class AuthController extends GetxController {
     if (user == null) {
       print("login page");
       Get.offAll(() => Loginpage());
-    } /*else if (k=false) {
-      Get.offAll(() => SignupPage());
-    }*/
-    else if (k = true) {
-      Get.offAll(() => partnerordoctor());
-    } else {
-      Get.offAll(() => Loginpage());
     }
   }
-
+/*
   void checkEmailVerified() async {
     await FirebaseAuth.instance.currentUser?.reload();
 
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    k = true;
+
 
     Get.offAll(() => partnerordoctor());
-  }
+  }*/
 
   void register(String email, password) async {
     try {
       await auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      Get.offAll(() => EmailVerificationScreen());
+      Get.offAll(() => EmailVerificationScreenregister());
+      user = auth.currentUser!;
+
+      CollectionReference collref =
+          FirebaseFirestore.instance.collection('Users');
+
+      collref.add({
+        'password': password,
+        'email': email,
+        'uid': user.uid.toString(),
+      });
     } catch (e) {
       Get.snackbar(
         "About user",
@@ -78,7 +86,12 @@ class AuthController extends GetxController {
   void login(String email, password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
-      Get.offAll(() => homepage());
+      //Get.offAll(() => homepage());
+      if (isEmailVerified) {
+        Get.offAll(homepage());
+      } else {
+        Get.offAll(EmailVerificationScreen());
+      }
     } catch (e) {
       Get.snackbar(
         "About Login",

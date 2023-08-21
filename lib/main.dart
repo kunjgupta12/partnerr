@@ -16,9 +16,9 @@ Future<void> backgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp().then((value) => Get.put(AuthController()));
+  // await Firebase.initializeApp().then((value) => Get.put(AuthController()));
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

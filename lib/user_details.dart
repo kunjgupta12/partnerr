@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:partnerr/details.dart';
+import 'package:partnerr/homepage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -178,10 +179,7 @@ class userdetails extends StatelessWidget {
                       emailcontroller.text != "" &&
                       mobilecontroller.text != "") {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            deails(email: AutofillHints.email),
-                      ),
+                      MaterialPageRoute(builder: (context) => homepage()),
                     );
                   }
                 },
