@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 import 'join_vc.dart';
-
+String? roomId;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -35,10 +35,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  //var roomId = roomRef.id;
   Signaling signaling = Signaling();
   RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
-  String? roomId;
   TextEditingController textEditingController = TextEditingController(text: '');
 
   @override
@@ -58,6 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _localRenderer.dispose();
     _remoteRenderer.dispose();
+
     super.dispose();
   }
 
@@ -157,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Join the following Room: "),
+                Text("Join the following Room: "+roomId.toString().trim()),
                 Flexible(
                   child: TextFormField(
                     controller: textEditingController,

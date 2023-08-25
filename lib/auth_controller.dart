@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:partnerr/details.dart';
 import 'package:partnerr/email_authregister.dart';
 import 'package:partnerr/homepage.dart';
 

@@ -8,15 +8,15 @@ import 'package:partnerr/auth_controller.dart';
 
 import 'package:get/get.dart';
 import 'firebase_options.dart';
-
+/*
 Future<void> backgroundHandler(RemoteMessage message) async {
   print(message.data.toString());
   print(message.notification!.title);
-}
+}*/
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp().then((value) => Get.put(AuthController()));
+   await Firebase.initializeApp().then((value) => Get.put(AuthController()));
 
   runApp(MyApp());
 }
