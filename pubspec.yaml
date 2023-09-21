@@ -42,7 +42,10 @@ dependencies:
 
   flutter_webrtc: ^0.9.36
   firebase_messaging: ^14.6.5
-  flutter_local_notifications: ^15.1.0+1
+  flutter_local_notifications: ^15.1.1
+  firebase_storage: ^11.2.7
+  permission_handler: ^11.0.0
+  image_picker: ^1.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

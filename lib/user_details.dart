@@ -44,152 +44,170 @@ class userdetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(25),
-          child: Column(
-            children: [
-              SizedBox(
-                height: 400,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 10,
-                          spreadRadius: 7,
-                          offset: Offset(1, 1),
-                          color: Colors.grey.withOpacity(.2))
-                    ]),
-                child: TextFormField(
-                  controller: namecontroller,
-                  decoration: InputDecoration(
-                      hintText: 'Full Name',
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: Colors.deepOrangeAccent,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30))),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Details',
+          style: TextStyle(
+              fontFamily: 'JosefinSans', fontSize: 25, color: Colors.black),
+        ),
+        centerTitle: true,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("img/Opening Page background.png"),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.all(25),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 400,
                 ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 10,
-                          spreadRadius: 7,
-                          offset: Offset(1, 1),
-                          color: Colors.grey.withOpacity(.2))
-                    ]),
-                child: TextFormField(
-                  controller: emailcontroller,
-                  autovalidateMode: AutovalidateMode.always,
-                  validator: validateEmail,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: 'Email Address',
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: Colors.deepOrangeAccent,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 10,
-                          spreadRadius: 7,
-                          offset: Offset(1, 1),
-                          color: Colors.grey.withOpacity(.2))
-                    ]),
-                child: TextFormField(
-                  controller: mobilecontroller,
-                  autovalidateMode: AutovalidateMode.always,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      hintText: 'Contact number',
-                      prefixIcon: Icon(
-                        Icons.phone,
-                        color: Colors.deepOrangeAccent,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide:
-                              BorderSide(color: Colors.white, width: 1.0)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(color: Colors.red)))),
-                onPressed: () {
-                  CollectionReference collref =
-                      FirebaseFirestore.instance.collection('partner details');
-                  collref.add({
-                    'name': namecontroller.text,
-                    'email': emailcontroller.text,
-                    'mobile': mobilecontroller.text,
-                  });
-                  if (namecontroller.text != "" &&
-                      emailcontroller.text != "" &&
-                      mobilecontroller.text != "") {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => homepage()),
-                    );
-                  }
-                },
-                child: Text(
-                  'Submit',
-                  style: TextStyle(
-                    fontSize: 20,
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10,
+                            spreadRadius: 7,
+                            offset: Offset(1, 1),
+                            color: Colors.grey.withOpacity(.2))
+                      ]),
+                  child: TextFormField(
+                    controller: namecontroller,
+                    decoration: InputDecoration(
+                        hintText: 'Full Name',
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: Colors.deepOrangeAccent,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30))),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10,
+                            spreadRadius: 7,
+                            offset: Offset(1, 1),
+                            color: Colors.grey.withOpacity(.2))
+                      ]),
+                  child: TextFormField(
+                    controller: emailcontroller,
+                    autovalidateMode: AutovalidateMode.always,
+                    validator: validateEmail,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        hintText: 'Email Address',
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Colors.deepOrangeAccent,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30))),
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 10,
+                            spreadRadius: 7,
+                            offset: Offset(1, 1),
+                            color: Colors.grey.withOpacity(.2))
+                      ]),
+                  child: TextFormField(
+                    controller: mobilecontroller,
+                    autovalidateMode: AutovalidateMode.always,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        hintText: 'Contact number',
+                        prefixIcon: Icon(
+                          Icons.phone,
+                          color: Colors.deepOrangeAccent,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 1.0)),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30))),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: BorderSide(color: Colors.red)))),
+                  onPressed: () {
+                    CollectionReference collref = FirebaseFirestore.instance
+                        .collection('partner details');
+                    collref.add({
+                      'name': namecontroller.text,
+                      'email': emailcontroller.text,
+                      'mobile': mobilecontroller.text,
+                    });
+                    if (namecontroller.text != "" &&
+                        emailcontroller.text != "" &&
+                        mobilecontroller.text != "") {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => homepage()),
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Submit',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

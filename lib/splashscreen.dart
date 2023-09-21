@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_core/src/get_main.dart';
 //import 'package:get/get_instance/get_instance.dart';
 import 'package:partnerr/auth_controller.dart';
@@ -9,6 +11,9 @@ import 'package:partnerr/homepage.dart';
 import 'package:partnerr/login.dart';
 import 'package:get/get.dart';
 import 'package:partnerr/nav_bar.dart';
+
+TextEditingController _title = TextEditingController();
+final TextEditingController _desc = TextEditingController();
 
 class splashscreen extends StatefulWidget {
   const splashscreen({super.key});

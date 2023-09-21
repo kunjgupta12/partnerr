@@ -1,8 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:get/get_core/src/get_main.dart';
 import 'package:partnerr/auth_controller.dart';
+
+String? validateEmail(String? value) {
+  const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
+      r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
+      r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
+      r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
+      r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
+      r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
+      r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
+  final regex = RegExp(pattern);
+
+  return value!.isNotEmpty && !regex.hasMatch(value)
+      ? 'Enter a valid email address'
+      : null;
+}
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -12,8 +29,13 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignuppageState extends State<SignupPage> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  var nameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordcontroller = TextEditingController();
+  late User user;
+  late String currentUId;
+  late String currentEmail;
 
   List images = [
     "g.png",
@@ -25,17 +47,25 @@ class _SignuppageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.width;
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("img/Opening Page background.png"),
+            fit: BoxFit.fill,
+          ),
+        ),
         child: Column(
           children: [
             SizedBox(
-              height: 10,
+              height: w * .09,
             ),
             Container(
-              width: w * .9,
-              height: h * 0.45,
+              width: w * .35,
+              height: h * 0.35,
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("img/logo.png"),
@@ -47,16 +77,38 @@ class _SignuppageState extends State<SignupPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Hello",
-                    style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    "Sign into your Account",
-                    style: TextStyle(fontSize: 20, color: Colors.grey[500]),
+                  Center(
+                    child: Text(
+                      "Serenity",
+                      style: TextStyle(
+                        fontFamily: 'JosefinSans',
+                        fontSize: 50,
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.w600,
+                        // color: Color.fromRGBO(10, 10, 3, 0.8)
+                      ),
+                    ),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: w * .2,
+                  ),
+                  Text(
+                    "Hey Guest",
+                    style: TextStyle(
+                        fontFamily: 'JosefinSans',
+                        fontSize: w * .1,
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Create your Account",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'Montserrat',
+                        color: Colors.black),
+                  ),
+                  SizedBox(
+                    height: 40,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -69,8 +121,10 @@ class _SignuppageState extends State<SignupPage> {
                               offset: Offset(1, 1),
                               color: Colors.grey.withOpacity(.2))
                         ]),
-                    child: TextField(
+                    child: TextFormField(
                       controller: emailController,
+                      validator: validateEmail,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           hintText: "Email id",
                           prefixIcon: Icon(
@@ -90,7 +144,7 @@ class _SignuppageState extends State<SignupPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -103,8 +157,9 @@ class _SignuppageState extends State<SignupPage> {
                               offset: Offset(1, 1),
                               color: Colors.grey.withOpacity(.2))
                         ]),
-                    child: TextField(
+                    child: TextFormField(
                       controller: passwordcontroller,
+                      keyboardType: TextInputType.text,
                       obscureText: true,
                       decoration: InputDecoration(
                           hintText: "Password",
@@ -130,9 +185,6 @@ class _SignuppageState extends State<SignupPage> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 60,
-            ),
             GestureDetector(
               onTap: () {
                 AuthController.instance.register(emailController.text.trim(),
@@ -142,55 +194,44 @@ class _SignuppageState extends State<SignupPage> {
                 width: w * 0.38,
                 height: h * .15,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    image: DecorationImage(
-                        image: AssetImage("img/logo.png"), fit: BoxFit.fill)),
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(30),
+                  //image: DecorationImage(
+                  //   image: AssetImage("img/img.png"), fit: BoxFit.fill)
+                ),
                 child: Center(
                   child: Text(
-                    "Sign up",
+                    "Create",
                     style: TextStyle(
-                      fontSize: 36,
+                      fontFamily: 'JosefinSans',
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey[700],
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
             ),
             SizedBox(
-              height: 5,
+              height: w * .25,
             ),
-            RichText(
-                text: TextSpan(
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => Get.back(),
-                    text: 'Have an account?',
-                    style: TextStyle(fontSize: 20, color: Colors.grey[500]))),
-            SizedBox(
-              height: w * 0.02,
+            Column(
+              children: [
+                RichText(
+                    text: TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => Get.back(),
+                        text: 'Have an account?',
+                        style: TextStyle(
+                            fontFamily: "Montserrat",
+                            color: Colors.grey[500],
+                            fontSize: w * .05,
+                            fontWeight: FontWeight.w600))),
+                SizedBox(
+                  height: w * .055,
+                ),
+              ],
             ),
-            RichText(
-                text: TextSpan(
-              text: "Sign up using one of the following methods!!!",
-              style: TextStyle(color: Colors.grey[500], fontSize: 20),
-            )),
-            Wrap(
-              children: List<Widget>.generate(3, (index) {
-                return Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.grey[500],
-                      child: CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage("img/" + images[index]),
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            )
           ],
         ),
       ),

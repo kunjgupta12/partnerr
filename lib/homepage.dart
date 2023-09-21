@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:partnerr/connect_gethelp.dart';
 import 'package:partnerr/email_auth.dart';
 import 'package:partnerr/login.dart';
+import 'package:partnerr/notification_ser.dart';
 
 class homepage extends StatefulWidget {
   const homepage({super.key});
@@ -15,63 +16,18 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
-  TextEditingController _title = TextEditingController();
-  final TextEditingController _desc = TextEditingController();
+  notifications notification = notifications();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    notification.initializeSettings();
+  }
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
   final firestore = FirebaseFirestore.instance.collection('rooms').snapshots();
-  @override
-  void initState() {
-    super.initState();
-    const AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings("@mipmap/ic_launcher");
-
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: androidInitializationSettings,
-      macOS: null,
-      linux: null,
-    );
-
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveBackgroundNotificationResponse:
-            (NotificationResponse notifiationresponse) {
-      switch (notifiationresponse.notificationResponseType) {
-        case NotificationResponseType.selectedNotification:
-          break;
-        case NotificationResponseType.selectedNotificationAction:
-          break;
-      }
-      // onSelectNotification: (dataYouNeedToUseWhenNotificationIsClicked) {},
-    });
-
-    Stream<QuerySnapshot<Map<String, dynamic>>> notificationStream =
-        FirebaseFirestore.instance.collection('rooms').snapshots();
-    notificationStream.listen((event) {
-      if (event.docs.isEmpty) {
-        return;
-      } else {
-        showNotification(event.docs.first);
-      }
-    });
-  }
-
-  void showNotification(QueryDocumentSnapshot<Map<String, dynamic>> event) {
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails('001', 'Local Notification',
-            channelDescription: 'to send local notification');
-    NotificationDetails details =
-        NotificationDetails(android: androidNotificationDetails);
-    NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails,
-      linux: null,
-    );
-
-    flutterLocalNotificationsPlugin.show(
-        01, _title.text, _desc.text, notificationDetails);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +40,19 @@ class _homepageState extends State<homepage> {
     currentEmail = user.email.toString();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Join'),
-        actions: [
+        title:Text(
+        'Connect',
+        style: TextStyle(
+            fontFamily: 'JosefinSans', fontSize: 25, color: Colors.black),
+        ),
+           centerTitle: true,
+           actions: [
           InkWell(
               onTap: () {
+                notification.scheduledNotification(
+                    "Scheduled Notification", "It was Triggered 1 Min ago");
+
+                print('Notification should poped');
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => gethelp()));
               },

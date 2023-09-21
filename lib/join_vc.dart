@@ -25,7 +25,6 @@ class Signaling {
   StreamStateCallback? onAddRemoteStream;
 
   Future<String> createRoom(RTCVideoRenderer remoteRenderer) async {
-
     FirebaseFirestore db = FirebaseFirestore.instance;
     DocumentReference roomRef = db.collection('rooms').doc();
 

@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:partnerr/splashscreen.dart';
 
 import 'join_vc.dart';
+
+TextEditingController _title = TextEditingController();
+final TextEditingController _desc = TextEditingController();
 String? roomId;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,13 +41,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   //var roomId = roomRef.id;
   Signaling signaling = Signaling();
   RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
   TextEditingController textEditingController = TextEditingController(text: '');
-
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   @override
   void initState() {
     _localRenderer.initialize();
@@ -53,6 +59,52 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     super.initState();
+    const AndroidInitializationSettings androidInitializationSettings =
+        AndroidInitializationSettings("@mipmap/ic_launcher");
+
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: androidInitializationSettings,
+      macOS: null,
+      linux: null,
+    );
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveBackgroundNotificationResponse:
+            (NotificationResponse notifiationresponse) {
+      switch (notifiationresponse.notificationResponseType) {
+        case NotificationResponseType.selectedNotification:
+          break;
+        case NotificationResponseType.selectedNotificationAction:
+          break;
+      }
+      //onSelectNotification: (dataYouNeedToUseWhenNotificationIsClicked) {},
+    });
+    {
+      Stream<QuerySnapshot<Map<String, dynamic>>> notificationStream =
+          FirebaseFirestore.instance.collection('rooms').snapshots();
+      notificationStream.listen((event) {
+        if (event.docs.isEmpty) {
+          return;
+        }
+        showNotification(event.docs.first);
+      });
+    }
+  }
+
+  void showNotification(QueryDocumentSnapshot<Map<String, dynamic>> event) {
+    AndroidNotificationDetails androidNotificationDetails =
+        const AndroidNotificationDetails("Schedule", "Notify",
+            importance: Importance.high);
+    NotificationDetails details =
+        NotificationDetails(android: androidNotificationDetails);
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+      linux: null,
+    );
+
+    flutterLocalNotificationsPlugin.show(
+        01, _title.text, _desc.text, notificationDetails);
   }
 
   @override
@@ -159,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Join the following Room: "+roomId.toString().trim()),
+                Text("Join the following Room: " + roomId.toString().trim()),
                 Flexible(
                   child: TextFormField(
                     controller: textEditingController,
