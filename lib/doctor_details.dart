@@ -371,21 +371,7 @@ class _doctordetailsState extends State<doctordetails> {
                               borderRadius: BorderRadius.circular(18.0),
                               side: BorderSide(color: Colors.red)))),
                   onPressed: () {
-/*
-                    Future uploadFile() async {
-                      if (file == null) return;
 
-                      final fileName = basename(file!.path);
-                      final destination = 'files/$fileName';
-
-                      task = FirebaseApi.uploadFile(destination, file!);
-                      setState(() {});
-
-                      if (task == null) return;
-
-                      final snapshot = await task!.whenComplete(() {});
-                      final urlDownload = await snapshot.ref.getDownloadURL();
-                    }*/
                       uploadFile();
                  /*   final height = double.parse(pricecontroller.text) ;
                     String pricee = height.toString();
