@@ -1,5 +1,18 @@
+
+import 'dart:io';
+import 'button_widget.dart';
+import 'firebase_api.dart';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:../flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path/path.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,19 +48,40 @@ String? validatemobile(String value) {
     return 'Please enter valid mobile number';
   }
   return null;
+
 }
 
-class doctordetails extends StatelessWidget {
+
+
+class doctordetails extends StatefulWidget {
+
   doctordetails({super.key});
+
+  @override
+  State<doctordetails> createState() => _doctordetailsState();
+}
+
+class _doctordetailsState extends State<doctordetails> {
+  UploadTask? task;
+
+  File? file;
+
   final mobilecontroller = TextEditingController();
+
   final emailcontroller = TextEditingController();
+
   final namecontroller = TextEditingController();
+
   final registraioncontroller = TextEditingController();
+
   final pricecontroller = TextEditingController();
+
   final exp = TextEditingController();
+
   final study = TextEditingController();
 
   bool isButtonClickable = true;
+
   @override
   Widget build(BuildContext context) {
     String imageUrl = '';
@@ -75,6 +109,13 @@ class doctordetails extends StatelessWidget {
             padding: EdgeInsets.all(25),
             child: Column(
               children: [
+               // SizedBox(height: 20),
+                task != null ? buildUploadStatus(task!) : Container(),
+                ButtonWidget(
+                  text: 'Select File',
+                  icon: Icons.attach_file,
+                  onClicked: selectFile,
+                ),
 
                 Container(
                   decoration: BoxDecoration(
@@ -330,7 +371,23 @@ class doctordetails extends StatelessWidget {
                               borderRadius: BorderRadius.circular(18.0),
                               side: BorderSide(color: Colors.red)))),
                   onPressed: () {
-                    final height = double.parse(pricecontroller.text) ;
+/*
+                    Future uploadFile() async {
+                      if (file == null) return;
+
+                      final fileName = basename(file!.path);
+                      final destination = 'files/$fileName';
+
+                      task = FirebaseApi.uploadFile(destination, file!);
+                      setState(() {});
+
+                      if (task == null) return;
+
+                      final snapshot = await task!.whenComplete(() {});
+                      final urlDownload = await snapshot.ref.getDownloadURL();
+                    }*/
+                      uploadFile();
+                 /*   final height = double.parse(pricecontroller.text) ;
                     String pricee = height.toString();
                     CollectionReference collref =
                         FirebaseFirestore.instance.collection('doctor details');
@@ -342,7 +399,9 @@ class doctordetails extends StatelessWidget {
                       'Experience': exp.text,
                       'Degree': study.text,
                       'price': pricee,
-                    });
+                      'image':''
+
+                    });*/
                     if (namecontroller.text != "" &&
                         emailcontroller.text != "" &&
                         mobilecontroller.text != "" &&
@@ -368,4 +427,60 @@ class doctordetails extends StatelessWidget {
       ),
     );
   }
+
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: false);
+
+    if (result == null) return;
+    final path = result.files.single.path!;
+
+   setState(() => file = File(path));
+  }
+
+  Future uploadFile() async {
+    if (file == null) return;
+
+    final fileName = basename(file!.path);
+    final destination = 'files/$fileName';
+
+    task = FirebaseApi.uploadFile(destination, file!);
+    setState(() {});
+
+    if (task == null) return;
+    final height = double.parse(pricecontroller.text) ;
+    String pricee = height.toString();
+    final snapshot = await task!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    CollectionReference collref =
+    FirebaseFirestore.instance.collection('doctor details');
+    collref.doc(registraioncontroller.text).set({
+      'image':urlDownload,
+      'name': namecontroller.text,
+      'email': emailcontroller.text,
+      'mobile': mobilecontroller.text,
+      'registraionnumber': registraioncontroller.text,
+      'Experience': exp.text,
+      'Degree': study.text,
+      'price': pricee,
+    });
+    print('Download-Link: $urlDownload');
+  }
+
+  Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
+    stream: task.snapshotEvents,
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        final snap = snapshot.data!;
+        final progress = snap.bytesTransferred / snap.totalBytes;
+        final percentage = (progress * 100).toStringAsFixed(2);
+
+        return Text(
+          '$percentage %',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        );
+      } else {
+        return Container();
+      }
+    },
+  );
 }
