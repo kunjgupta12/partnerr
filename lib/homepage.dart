@@ -40,21 +40,21 @@ class _homepageState extends State<homepage> {
     currentEmail = user.email.toString();
     return Scaffold(
       appBar: AppBar(
-        title:Text(
-        'Connect',
-        style: TextStyle(
-            fontFamily: 'JosefinSans', fontSize: 25, color: Colors.black),
+        title: Text(
+          'Connect',
+          style: TextStyle(
+              fontFamily: 'JosefinSans', fontSize: 25, color: Colors.black),
         ),
-           centerTitle: true,
-           actions: [
+        centerTitle: true,
+        actions: [
           InkWell(
               onTap: () {
                 notification.scheduledNotification(
                     "Scheduled Notification", "It was Triggered 1 Min ago");
 
                 print('Notification should poped');
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => gethelp()));
+              //  Navigator.push(context,
+                //    MaterialPageRoute(builder: (context) => gethelp()));
               },
               child: Icon(Icons.add)),
           SizedBox(
@@ -93,11 +93,17 @@ class _homepageState extends State<homepage> {
                         return Card(
                           child: ListTile(
                             horizontalTitleGap: 10,
-                            title: SelectableText(
-                              snapshot.data!.docs[index].id.toString(),
-                              style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 20,
+                            title: TextButton(
+                              onPressed: () {
+                                Navigator.push(context,
+                                      MaterialPageRoute(builder: (context)   => gethelp(room: snapshot.data!.docs[index].id.toString(),)));
+                              },
+                              child: Text(
+                                snapshot.data!.docs[index].id.toString(),
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                           ),

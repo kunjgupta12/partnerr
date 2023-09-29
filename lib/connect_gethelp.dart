@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -13,100 +14,43 @@ String? roomId;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(gethelp());
+ // runApp(gethelp(room: ""));
 }
 
+
+
+
 class gethelp extends StatefulWidget {
-  const gethelp({super.key});
+  String room;
+  gethelp({required this.room,Key? key}) : super(key: key);
 
   @override
-  State<gethelp> createState() => _gethelpState();
+  _gethelpState createState() => _gethelpState();
 }
 
 class _gethelpState extends State<gethelp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   //var roomId = roomRef.id;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late User user;
+  late String currentUId;
+  late String currentEmail;
   Signaling signaling = Signaling();
   RTCVideoRenderer _localRenderer = RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = RTCVideoRenderer();
-  TextEditingController textEditingController = TextEditingController(text: '');
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+ // TextEditingController textEditingController = TextEditingController(text: widget.room.toString());
+
   @override
   void initState() {
     _localRenderer.initialize();
     _remoteRenderer.initialize();
+    user = auth.currentUser!;
 
+    currentUId = user.uid.toString();
+    signaling.openUserMedia(_localRenderer, _remoteRenderer);
     signaling.onAddRemoteStream = ((stream) {
       _remoteRenderer.srcObject = stream;
       setState(() {});
-    });
-
-    super.initState();
-    const AndroidInitializationSettings androidInitializationSettings =
-        AndroidInitializationSettings("@mipmap/ic_launcher");
-
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-      android: androidInitializationSettings,
-      macOS: null,
-      linux: null,
-    );
-
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveBackgroundNotificationResponse:
-            (NotificationResponse notifiationresponse) {
-      switch (notifiationresponse.notificationResponseType) {
-        case NotificationResponseType.selectedNotification:
-          break;
-        case NotificationResponseType.selectedNotificationAction:
-          break;
-      }
-      //onSelectNotification: (dataYouNeedToUseWhenNotificationIsClicked) {},
-    });
-    {
-      Stream<QuerySnapshot<Map<String, dynamic>>> notificationStream =
-          FirebaseFirestore.instance.collection('rooms').snapshots();
-      notificationStream.listen((event) {
-        if (event.docs.isEmpty) {
-          return;
-        }
-        showNotification(event.docs.first);
-      });
-    }
-  }
-
-  void showNotification(QueryDocumentSnapshot<Map<String, dynamic>> event) {
-    AndroidNotificationDetails androidNotificationDetails =
-        const AndroidNotificationDetails("Schedule", "Notify",
-            importance: Importance.high);
-    NotificationDetails details =
-        NotificationDetails(android: androidNotificationDetails);
-    NotificationDetails notificationDetails = NotificationDetails(
-      android: androidNotificationDetails,
-      linux: null,
-    );
-
-    flutterLocalNotificationsPlugin.show(
-        01, _title.text, _desc.text, notificationDetails);
-  }
-
+    });}
   @override
   void dispose() {
     _localRenderer.dispose();
@@ -117,6 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController textEditingController = TextEditingController(text: widget.room.toString());
+
     return Scaffold(
       body: Column(
         children: [
@@ -162,7 +108,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   // Add roomId
                   signaling.joinRoom(
-                    textEditingController.text.trim(),
+                    widget.room.trim().toString(),
+                   // textEditingController.text.trim(),
                     _remoteRenderer,
                   );
                 },
@@ -211,12 +158,11 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Join the following Room: " + roomId.toString().trim()),
-                Flexible(
+              //  Text(widget.room),
+              /*  Flexible(
                   child: TextFormField(
-                    controller: textEditingController,
-                  ),
-                )
+                    controller: textEditingController       ),
+                )*/
               ],
             ),
           ),

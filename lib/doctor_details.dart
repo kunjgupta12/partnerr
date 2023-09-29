@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'button_widget.dart';
 import 'firebase_api.dart';
@@ -11,12 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:partnerr/homepage.dart';
 
 void main() async {
@@ -48,13 +42,9 @@ String? validatemobile(String value) {
     return 'Please enter valid mobile number';
   }
   return null;
-
 }
 
-
-
 class doctordetails extends StatefulWidget {
-
   doctordetails({super.key});
 
   @override
@@ -109,7 +99,7 @@ class _doctordetailsState extends State<doctordetails> {
             padding: EdgeInsets.all(25),
             child: Column(
               children: [
-               // SizedBox(height: 20),
+                // SizedBox(height: 20),
                 task != null ? buildUploadStatus(task!) : Container(),
                 ButtonWidget(
                   text: 'Select File',
@@ -238,7 +228,6 @@ class _doctordetailsState extends State<doctordetails> {
                   child: TextFormField(
                     controller: exp,
                     autovalidateMode: AutovalidateMode.always,
-
                     decoration: InputDecoration(
                         hintText: 'Experience',
                         prefixIcon: Icon(
@@ -274,7 +263,6 @@ class _doctordetailsState extends State<doctordetails> {
                   child: TextFormField(
                     controller: study,
                     autovalidateMode: AutovalidateMode.always,
-
                     decoration: InputDecoration(
                         hintText: 'Degree',
                         prefixIcon: Icon(
@@ -371,9 +359,8 @@ class _doctordetailsState extends State<doctordetails> {
                               borderRadius: BorderRadius.circular(18.0),
                               side: BorderSide(color: Colors.red)))),
                   onPressed: () {
-
-                      uploadFile();
-                 /*   final height = double.parse(pricecontroller.text) ;
+                    uploadFile();
+                    /*   final height = double.parse(pricecontroller.text) ;
                     String pricee = height.toString();
                     CollectionReference collref =
                         FirebaseFirestore.instance.collection('doctor details');
@@ -420,7 +407,7 @@ class _doctordetailsState extends State<doctordetails> {
     if (result == null) return;
     final path = result.files.single.path!;
 
-   setState(() => file = File(path));
+    setState(() => file = File(path));
   }
 
   Future uploadFile() async {
@@ -433,14 +420,14 @@ class _doctordetailsState extends State<doctordetails> {
     setState(() {});
 
     if (task == null) return;
-    final height = double.parse(pricecontroller.text) ;
+    final height = double.parse(pricecontroller.text);
     String pricee = height.toString();
     final snapshot = await task!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     CollectionReference collref =
-    FirebaseFirestore.instance.collection('doctor details');
+        FirebaseFirestore.instance.collection('doctor details');
     collref.doc(registraioncontroller.text).set({
-      'image':urlDownload,
+      'image': urlDownload,
       'name': namecontroller.text,
       'email': emailcontroller.text,
       'mobile': mobilecontroller.text,
@@ -453,20 +440,20 @@ class _doctordetailsState extends State<doctordetails> {
   }
 
   Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
-    stream: task.snapshotEvents,
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        final snap = snapshot.data!;
-        final progress = snap.bytesTransferred / snap.totalBytes;
-        final percentage = (progress * 100).toStringAsFixed(2);
+        stream: task.snapshotEvents,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final snap = snapshot.data!;
+            final progress = snap.bytesTransferred / snap.totalBytes;
+            final percentage = (progress * 100).toStringAsFixed(2);
 
-        return Text(
-          '$percentage %',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        );
-      } else {
-        return Container();
-      }
-    },
-  );
+            return Text(
+              '$percentage %',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            );
+          } else {
+            return Container();
+          }
+        },
+      );
 }
