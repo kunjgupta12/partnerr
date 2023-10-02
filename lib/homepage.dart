@@ -40,6 +40,8 @@ class _homepageState extends State<homepage> {
     currentEmail = user.email.toString();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: Text(
           'Connect',
           style: TextStyle(
@@ -61,6 +63,7 @@ class _homepageState extends State<homepage> {
             height: 40,
           ),
           InkWell(
+
             onTap: () {
               auth.signOut().then(
                 (value) {
@@ -69,7 +72,7 @@ class _homepageState extends State<homepage> {
                 },
               );
             },
-            child: Icon(Icons.logout),
+            child: Icon(Icons.logout,color: Colors.black,),
           )
         ],
       ),

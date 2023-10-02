@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 
 class appointments extends StatefulWidget {
   const appointments({super.key});
@@ -10,26 +12,47 @@ class appointments extends StatefulWidget {
 }
 
 class _appointmentsState extends State<appointments> {
-  final profileList =
-  FirebaseFirestore.instance.collection('doctor details').doc('785885').collection('bookings');
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<DocumentSnapshot>(
-      future: profileList.doc('ehUln6WUhylbiOUqba0J').get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
 
+    late User user;
+    late String currentUId;
+    late String currentEmail;
+    late String number;
+    user = auth.currentUser!;
+    Stream<List<DocumentSnapshot>> getAllDocuments() {
+      return FirebaseFirestore.instance.collection('doctor details').doc(
+          user.email).collection('booking').snapshots().map(
+            (QuerySnapshot querySnapshot) => querySnapshot.docs,
+      );
+    }
+
+    final profileList =
+    FirebaseFirestore.instance.collection('doctor details')
+        .doc(user.email)
+        .collection('booking')
+        .doc();
+
+    return StreamBuilder<List<DocumentSnapshot>>(
+      stream: getAllDocuments(),
+      builder: (BuildContext context,
+          AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return Text('Error: ${snapshot.error}');
         }
-
-
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
-          return Center(child: Text(" ${data['date']} "));
-        }
-
-        return Text("loading");
+        List<DocumentSnapshot> documents = snapshot.data!;
+        return ListView.builder(
+          itemCount: documents.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ListTile(
+              title: Text(documents[index]['time']),
+              subtitle: Text(documents[index]['date']),
+            );
+          },
+        );
       },
-    );
-  }}
+    );}}

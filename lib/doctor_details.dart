@@ -1,4 +1,8 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:partnerr/nav_bar.dart';
+
+import 'appointments.dart';
 import 'button_widget.dart';
 import 'firebase_api.dart';
 
@@ -74,6 +78,13 @@ class _doctordetailsState extends State<doctordetails> {
 
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+
+    late User user;
+    late String currentUId;
+    late String currentEmail;
+    late String number;
+    user = auth.currentUser!;
     String imageUrl = '';
     return Scaffold(
       appBar: AppBar(
@@ -381,7 +392,7 @@ class _doctordetailsState extends State<doctordetails> {
                         registraioncontroller.text != "") {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => homepage(),
+                          builder: (context) => profilepage()
                         ),
                       );
                     }
@@ -426,7 +437,7 @@ class _doctordetailsState extends State<doctordetails> {
     final urlDownload = await snapshot.ref.getDownloadURL();
     CollectionReference collref =
         FirebaseFirestore.instance.collection('doctor details');
-    collref.doc(registraioncontroller.text).set({
+    collref.doc(emailcontroller.text).set({
       'image': urlDownload,
       'name': namecontroller.text,
       'email': emailcontroller.text,
