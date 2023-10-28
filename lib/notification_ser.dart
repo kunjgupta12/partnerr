@@ -1,86 +1,40 @@
-import 'package:flutter/material.dart';
-import "package:flutter_local_notifications/flutter_local_notifications.dart";
 
-class notifications {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-  AndroidInitializationSettings androidInitializationSettings =
-      AndroidInitializationSettings('mipmap/hj');
+class NotificationService {
+  final FlutterLocalNotificationsPlugin notificationsPlugin =
+  FlutterLocalNotificationsPlugin();
 
-  void initializeSettings() async {
-    InitializationSettings initializationSettings =
-        InitializationSettings(android: androidInitializationSettings);
+  Future<void> initNotification() async {
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    AndroidInitializationSettings initializationSettingsAndroid =
+    const AndroidInitializationSettings('mipmap/ic_launcher');
+
+    var initializationSettingsIOS = DarwinInitializationSettings(
+        requestAlertPermission: true,
+        requestBadgePermission: true,
+        requestSoundPermission: true,
+        onDidReceiveLocalNotification:
+            (int id, String? title, String? body, String? payload) async {});
+
+    var initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    await notificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse:
+            (NotificationResponse notificationResponse) async {});
+    await notificationsPlugin.initialize(initializationSettings);
   }
 
-  void showNotification(String title, String body) async {
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-      "channelID",
-      "channelName",
-      priority: Priority.max,
-      importance: Importance.max,
-      color: Colors.greenAccent,
-      icon: "@mipmap/ic_launcher",
-    );
-
-    NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-
-    flutterLocalNotificationsPlugin.show(1, title, body, notificationDetails);
+  notificationDetails() {
+    return const NotificationDetails(
+        android: AndroidNotificationDetails('channelId', 'channelName',icon: 'mipmap/ic_launcher',
+            importance: Importance.max,priority:  Priority.max),
+        iOS: DarwinNotificationDetails());
   }
 
-  void scheduledNotification(String title, String body) async {
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-      "channelId",
-      "channelName",
-      priority: Priority.max,
-      importance: Importance.max,
-    );
-
-    NotificationDetails n =
-        NotificationDetails(android: androidNotificationDetails);
-
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-      0,
-      title,
-      body,
-      RepeatInterval.everyMinute,
-      n,
-    );
-
-    print('ScHEDULED BY NOW');
-  }
-}
-
-class notification {
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  //final AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('hj');
-
-  AndroidInitializationSettings androidInitializationSettings =
-      AndroidInitializationSettings('hj');
-
-  void initializeSettings() async {
-    final InitializationSettings initializationSettings =
-        InitializationSettings(android: androidInitializationSettings);
-
-    await flutterLocalNotificationPlugin.initialize(initializationSettings);
-  }
-
-  void sendNotification(String title, String body) async {
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails("channelId", "channelName",
-            priority: Priority.max, importance: Importance.max);
-
-    final NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-
-    await flutterLocalNotificationPlugin.show(
-        0, title, body, notificationDetails);
+  Future showNotification(
+      {int id = 0, String? title, String? body, String? payLoad}) async {
+    return notificationsPlugin.show(
+        id, title, body, await notificationDetails());
   }
 }

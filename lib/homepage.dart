@@ -16,16 +16,22 @@ class homepage extends StatefulWidget {
 }
 
 class _homepageState extends State<homepage> {
-  notifications notification = notifications();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    notification.initializeSettings();
+    Stream<QuerySnapshot<Map<String, dynamic>>> notificationStream =
+
+    FirebaseFirestore.instance.collection('rooms').snapshots();
+    notificationStream.listen((event) {
+      NotificationService()
+          .showNotification(title: 'New Call', body: 'Join');
+
+    });
+
   }
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
 
   final firestore = FirebaseFirestore.instance.collection('rooms').snapshots();
 
@@ -49,30 +55,18 @@ class _homepageState extends State<homepage> {
         ),
         centerTitle: true,
         actions: [
-          InkWell(
-              onTap: () {
-                notification.scheduledNotification(
-                    "Scheduled Notification", "It was Triggered 1 Min ago");
 
-                print('Notification should poped');
-              //  Navigator.push(context,
-                //    MaterialPageRoute(builder: (context) => gethelp()));
-              },
-              child: Icon(Icons.add)),
-          SizedBox(
-            height: 40,
-          ),
           InkWell(
 
             onTap: () {
-              auth.signOut().then(
+             auth.signOut().then(
                 (value) {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Loginpage()));
+                      MaterialPageRoute(builder: (context) => const Loginpage()));
                 },
               );
             },
-            child: Icon(Icons.logout,color: Colors.black,),
+            child: const Icon(Icons.logout,color: Colors.black,),
           )
         ],
       ),
@@ -85,9 +79,10 @@ class _homepageState extends State<homepage> {
               stream: firestore,
               builder:
                   (BuildContext value, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting)
-                  return CircularProgressIndicator();
-                if (snapshot.hasError) return Text(('Some error'));
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return  const CircularProgressIndicator();
+                }
+                if (snapshot.hasError) return const Text(('Some error'));
 
                 return Expanded(
                   child: ListView.builder(
